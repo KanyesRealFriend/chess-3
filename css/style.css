@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+}
+/*prevent highlighting of pieces*/
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+body {
+  background-image: url('../images/chessBackground.jpg');
+  background-repeat: no-repeat;
+ background-size: cover;
+}
+
+
+.startGame {
+  display: none;
+  position: relative;
+  /*max-width: 800px;*/
+}
+
+.startGameMenu {
+  /*border-radius: 250px;*/
+  border: 5px solid black;
+  width: 80%;
+  text-align: center;
+  margin: 4% 0 0 8%;
+  padding: 2%;
+  background-color: beige;
+}
+
+img {
+  width: 50%;
+  margin: 20px auto;
+  opacity: 0.8;
+}
+
+#play_2pp, #play_comp {
+  display: block;
+  margin: 5px auto;
+  width: 25%;
+
+}
+
+#gameBoard {
+  margin: 0px auto;
+  margin-top: 10px;
+  border-left: 30px solid brown;
+  border-top: 15px solid brown;
+  border-bottom: 15px solid brown;
+  box-shadow: 10px 10px 5px grey;
+  width: 90vw;
+  max-width: 775px;
+  position: relative;
+  background-color: brown;
+  /*max-height: 100vh;*/
+  /*opacity: 0.3;*/
+}
+
+.row {
+  width: 100%;
+  display: flex;
+
+}
+
+
+.square {
+  display: inline-block;
+  width: 12.5%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3em;
+}
+
+.square:after {
+  content: "";
+  padding-bottom: 100%;
+}
+
+.gray {
+  background-color: gray;
+}
+
+.white {
+  background-color: white;
+}
+
+.clicked {
+  border: 5px solid blue;
+}
+
+p {
+  margin: 0;
+}
+
+.highLight {
+  border: 4px solid red;
+  /* Raise tiles instead of highlighting them.
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1), 0 6px 20px 0 rgba(0, 0, 0, 1);*/
+}
+
+.previousMoveGray {
+  background-color: #AFEEEE;
+  opacity: 0.8;
+  /*border: 1px solid gray;*/
+}
+
+.previousMoveWhite {
+  background-color: #AFEEEE;
+  /*opacity: 0.6;*/
+  /*border: 1px solid white;*/
+}
+
+.selectedPiece {
+  text-shadow: 2px 2px 8px #40E0D0;
+}
+
+.inGameForm {
+  position: absolute;
+  z-index: 10;
+  left: 25%;
+  top: 25%;
+  position: absolute;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  text-align: center;
+  height: 200px;
+  border: 2px solid black;
+}
+
+#gameOver {
+  height: 120px;
+  left: 35%;
+  top: 35%;
+}
+
+
+
+#pawn_promotion input {
+  padding: 20px;
+  margin: 20px;
+}
+
+fieldset {
+  margin-top: 10px;
+}
+
+#gameClocks{
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+#whiteClock, #blackClock {
+  height: 50px;
+  background-color: black;
+  color: green;
+  border: 5px solid brown;
+  width: 50%;
+  padding-bottom: 5px;
+
+}
+
+#scoreBoard {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  font-size: 32px;
+  background-color: brown;
+}
+
+#whiteScore, #blackScore {
+  height: 50px;
+  background-color: black;
+  color: green;
+
+  border: 5px solid brown;
+  width: 30%
+}
+
+button#newGame, #gameOver p{
+  margin: 0 auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.hidden {
+  display: none;
+  /*visibility: hidden;*/
+}
+
+h3 {
+  font-family: cursive;
+}
+
+.btn-danger {
+  background-color: brown;
+}
+
+.startGameButton {
+  /*adjust the roundness*/
+  font-family: 'Nunito Sans', sans-serif;
+  background-color:beige;
+  border-radius: 20px;
+  moz-border-radius: 4px;
+  webkit-border-radius: 4px;
+  /*adjust height and width*/
+  height: 40px;
+  width: 120px;
+  /*change border colour*/
+  border:1px black solid;
+  padding:5px;
+  font-weight:bold;
+  font-size:14px;
+  letter-spacing:2px;
+  color:brown;
+  text-transform: uppercase;
+}
+span {
+  margin-left: 10px;
+}
+
+#play960, #timed {
+  margin: 0 auto;
+}
+.startGameButton:hover {
+/*   background-color:#000032; */
+  color:brown;
+  animation: fadeBGColor .75s forwards,      fadeTextColor .5s forwards;
+}
+
+@keyframes fadeBGColor {
+  from {background-color:beige;}
+  to {background-color:brown;}
+}
+
+@keyframes fadeTextColor {
+  from {color:brown;}
+  to {color:beige;}
+}
+
+#playingPerson input {
+  margin: 6px;
+}
+
+#showPreviousMove, #displayClock, #displayScore, #AI {
+  width: 20%;
+}
+
+#gameButtons{
+  display: flex;
+  justify-content: center;
+}
+
+.gameOverButton {
+  width: 50%;
+}
+
+label.btn {
+  margin-right: 12px;
+}
+
+span.toggle-handle {
+  background-color: white;
+  margin-right: 8px;
+}
+
+div.toggle div.toggleGroup {
+  background-color: grey;
+  margin-right: 8px;
+}
+
+div.btn {
+  background-color: #1D2026;
+  color: white;
+  margin-right: 8px;
+}
+
+label.toggle-on {
+  background-color: brown;
+  margin-right: 8px;
+}
+
+div.btn:hover{
+  background-color: #5D6977;
+}
+
+label.btn:hover{
+  background-color: #5D6977;
+}
+
+.annoyingButton {
+  padding-left: 80px;
+}

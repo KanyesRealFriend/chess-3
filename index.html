@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/css/bootstrap-slider.css" />
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" media="screen" title="no title" charset="utf-8"/>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <div class='startGameMenu'>
+      <img src="./images/title2.png" alt="" />
+      <h3>The third coming of chess.</h3>
+      <button class='btn startGameButton' id="play_comp" type="button" name="button">Vs. Automaton</button>
+      <button class='btn startGameButton' id="play_2pp" type="button" name="button">2 Player</button>
+      <br>
+
+      <div id='pplMenu' class='hidden'>
+        <p>Enter your names and pick the game type.</p>
+        <br>
+          <label><input class="player1Name" type="text" name="player1Name" value=""> Player 1 name</label><br />
+          <label><input class="player2Name" type="text" name="player2Name" value="">Player 2 name</label><br />
+          <label><input class='timed1' type="checkbox" checked data-toggle="toggle">Timed</label>
+          <br>
+          <label><input class='playNormal1' type="checkbox" checked data-toggle="toggle"/>Normal</label>
+          <br>
+          <label><input class='play960' type="checkbox" data-toggle="toggle"/>C.960</label>
+          <br>
+          <label><input class='playHorde1' type="checkbox" data-toggle="toggle"/>Horde</label>
+          <br>
+          <div class='annoyingButton'>
+            <label><input class='playPeasants1' type="checkbox" data-toggle="toggle"/>Peasant's Revenge</label>
+          </div>
+
+          <br>
+          <!-- <label><input id='play960' type="checkbox" data-toggle="toggle">C.960</label> -->
+      </br>
+        <button class='btn-danger startGameButton back' type="button" name="piece">back</button>
+        <button class='btn-danger startGameButton start' type="button" name="piece">Submit!</button>
+      </div>
+
+      <div id='compMenu' class='hidden'>
+        <p>Enter your name, pick the game type and computer difficulty.</p>
+        <br>
+        <label><input class="player1Name2" type="text" name="player1Name2" value=""> Player 1 name</label><br />
+          <br>
+          <input id="difficulty" data-provide='slider' type="text" data-slider-min="1" data-slider-max="3" data-slider-step="1" data-slider-value="2"/>
+          <span id="ex6CurrentSliderValLabel">Difficulty: <span id="ex6SliderVal"></span></span>
+          <br>
+        </br>
+          <label><input class='timed2' type="checkbox" checked data-toggle="toggle">Timed</label>
+          <br>
+          <label><input class='playNormal2' type="checkbox" checked data-toggle="toggle"/>Normal</label>
+          <br>
+          <label><input class='play96' type="checkbox" data-toggle="toggle"/>C.960</label>
+          <br>
+          <label><input class='playHorde2' type="checkbox" data-toggle="toggle"/>Horde</label>
+          <br>
+          <div class='annoyingButton'>
+            <label><input class='playPeasants2' type="checkbox" data-toggle="toggle"/>Peasant's Revenge</label>
+          </div>
+
+
+      </br>
+        <button class='btn-danger startGameButton back' type="button" name="piece">back</button>
+        <button class='btn-danger startGameButton start' type="button" name="piece">Submit!</button>
+      </div>
+    </div>
+
+    <div class='startGame'>
+      <div id="gameBoard">
+        <div id=scoreBoard>
+          <div id="whiteScore">White: 0</div>
+          <div id="blackScore">Black: 0</div>
+        </div>
+        <div id='gameClocks' class='hidden'>
+          <div id='whiteClock'>60:00</div>
+          <div id='blackClock'>60:00</div>
+        </div>
+    </div>
+    <form id="pawn_promotion" class='hidden inGameForm'>
+      <p>Choose the piece you would like the pawn promoted to:</p>
+      <fieldset id=#piece>
+        <label><input type="radio" name="piece" value="knight">knight</label>
+        <label><input type="radio" name="piece" value="bishop">bishop</label>
+        <label><input type="radio" name="piece" value="rook">rook</label>
+        <label><input type="radio" name="piece" value="queen">queen</label>
+      </fieldset>
+    </br>
+      <button class='btn-danger' type="button" name="piece">Submit!</button>
+    </form>
+      <div class='hidden inGameForm' id='gameOver'>
+        <p>lipsum olrem dsalkgfasdfgpkj ;askdfjalskd fj;a</p>
+        <button class='btn-danger startGameButton gameOverButton' type="button" name="button" id='newGame'>Play again!</button>
+      </div>
+      <br />
+      <div id='gameButtons'>
+        <button class='btn startGameButton' id="showPreviousMove" type="button" name="button">Display previous move</button>
+        <!-- <button class='change_turn btn-danger' type="button" name="button">Change Turn (debugging purposes only)</button> -->
+        <button class='btn startGameButton' id="displayClock" type="button" name="button">Display game clock</button>
+        <!-- <button class='btn startGameButton' id="displayClockPermanently" type="button" name="button">Display game clock permanently</button> -->
+        <button class='btn startGameButton' id="displayScore" type="button" name="button">Display score</button>
+        <!-- <button class='btn-danger' id="AI" type="button" name="button">turn on AI (for debugging purposes only)</button> -->
+      </div>
+      </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" charset="utf-8"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.8.1/bootstrap-slider.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/humansMain.js"></script>
+    <script type="text/javascript" src="./js/App.js"></script>
+    <!-- <script type="text/javascript" src="./js/gameBoard.js"></script> -->
+  </body>
+</html>

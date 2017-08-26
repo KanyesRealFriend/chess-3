@@ -1,0 +1,284 @@
+=====================================
+// Idea for how to automate CPU play:
+=====================================
+Every piece in Chess has a value attached to it:
+pawns: 1
+knights and bishops: 3
+rooks: 5
+queens: 8 or 10?
+kings: infinite
+
+When its the computers turn, every possible move it can make begins a node tree.  Under each one of these nodes, is a node for every possible move the opponent can make and so on and so forth, for as many levels as the computer can calculate (probably only like 3 or 4 because this will be a massive data set).  Wherever it ends, the bottom nodes have the score of the game based on the material on the board.  So for example if the computer can generate 4 moves into the future, and the 4th move is the computer capturing a rook, then at that node, the score of the game would be 5 points in favor of the computer.  At every node above it, the score is just the average of all of the children!  This will extrapolate up to the top most parent nodes (the move options available to the computer) whose scores will be the average of every possible move outcome that results (for 3 or 4 levels).  Then, all the computer needs to do is pick the one with the highest average!  At the next turn it does the same things so it is always generating every outcome as far ahead as possible.  I wonder if this is how chess computers work?  Probably similarly, but more complex.
+
+Alternatively, and probably way more easily, just use backwards induction a la game theory.  Although this would just give a NE.  Although this is actually certainly the better way of doing things! Its way game theory exists.
+
+
+===========
+// Glitches
+===========
+1. Kings and only kings (wtf?) cannot seem to enter a square that a pawn was previously promoted on. NVM Its a castle problem.  If king is on adjacent square, then it doesnt have that square (the one its on) as a possible move, so it removes the next square because of your stupid code!  IDIOT! Handled.
+2. There's something wrong with black's pawn promotion. Handled.
+3. Remove gameboard from game object and change checkamte to still work.
+=====================================
+// Features to add to the game:
+=====================================
+Next things to do:
+1. Show previous move button.  Complete.
+2. Castling! Complete
+3. Game Clock.  Complete.
+4. 3 Repetitions.
+
+
+***Means this is a regular part of Chess.
+**Not necessary but important for game to work.
+Extra features:
+Done?--------Make details better (such as the color pieces are highlighted n shit)
+DONE!-------******CASTLING
+DONE!-------***-Pawn promotion
+DONE!-------***-En Passant
+DONE!-------***-Game clock for each player and display it.  Counting down from 60 minutes.  DONE!-------When it hits zero for either player, that player loses.
+*-Allow for user to view a move before submitting.  Essentially once the second square is clicked, a form should slide up from bottom asking to submit or cancel.  Cancel undoes the move, submitting makes the move.
+**-Edit victory scenario to shade out the board and menu pops up describing who won and offering to play again.
+*-Scoreboard tallying how many wins each player has.
+-Undo button! This may be tough. Can also use cmd + Z
+**-Message telling player they're in check.  Maybe have this slide up from the bottom in kinda small letters, and then slide down after 5 or so seconds if the user does nothing, but they can also click it to make it slide down too.
+DON!-------**-Show last move.
+DONE!------**-Display selected piece differently
+-Add option to play FischerRandom chess.
+DONE!--------***-ADD STALEMATES
+-Show captured pieces
+
+=====================================
+// Other work to be done when finished
+=====================================
+
+At end:
+1. Clean up pawn code.
+2. Reorganize main functions, especially their ending, so that the squareClicked function handles everything and the other functions just do solely what their name implies.
+3. Reorganize end of findPossibleMoves functions so that this code isn't repeated for each piece.
+4. Clean up possible moves handling so that the array only EVER consists of valid gameboard moves.  This will make the checkmate function extremely easy to execute and will negate the necessity of a gameBoard array.
+5. Suspend play while form to promote piecesa is popped up.
+
+=====================================
+// Original sprint ideas (defunct):
+=====================================
+
+Sprints:
+1. Load board with pieces.
+2. Add functionality that a piece can be clicked and moved anywhere on the board by clicking another space.
+3. Make the game turn based. Could move to after step 7.
+4. Remove ability to occupy or move pieces to spaces occupied by those of the same team.
+5. Add functionality that pieces moved to squares occupied by other team, are “taken over.”  At this point, no two pieces should be able to occupy the same square.
+6. Restrict piece movement to their respective rules
+7. Remove ability to travel through any and all pieces (except for knights!).
+8. Add functionality that if piece whose turn it is, is clicked, after another piece whose turn it is, is previously clicked, then the piece selected is switched to the newer piece.
+9. Add check functionality and restrict the selection of pieces in cases where the player is in check.
+10. Add checkmate functionality (somehow).  Alert winner and restart game.
+11. Modify pawn movements to reflect the rules of chess including:
+    1. 2 spaces on first move, 1 on moves after.
+    2. Diagonal capture.
+    3. En poissant (or however that’s spelled)
+    4. Pawn transformation. (Maybe save this for the last thing)
+12. Add castle functionality.
+
+=========================================
+// Original Checkmate planning (defunct):
+=========================================
+
+Pseudocode for checkmate:
+There are 3 ways to escape check:
+1. Move king out of check.
+2. Capture piece giving check.
+3. Move piece into path of piece giving check, to block the attack.
+
+In code, check these 3 conditions in order.
+1. Loop through possible king moves (I+1, j), (I + 1, j + 1), (I, J+1), etc. excluding spaces that are occupied by teammates and adding legal squares into an array.
+2. Looping through board, if piece is on opposite team, check if the
+
+
+When piece is clicked, load legal moves into an array.  A legal move should be a coordinate.  When a
+
+=====================================
+// Pseudocode iteration 1:
+=====================================
+
+Game object has:
+Pieces: This is an array that holds every piece on the board as an object with the following properties:
+  Location: a1-h8
+  Color: white or black
+  Image: with image path and file name
+  Possible moves array initially empty.
+  Possible moves function that calculates all possible moves storing them each into the moves array.
+
+Alphabet array with letters a-h
+Piece selected variable: false or piece
+squareSelected: false or ID or square sleected
+In check variable: true or false
+Turn: white or black
+whiteKingLocation: pieces.kingWhite.location
+blackKingLocation: pieces.kingBlack.location
+pieceStorage = false;
+squaresToStopCheckMate =
+color[white, black]
+
+changeTurn() {
+if(color.indexOf(turn) > 0)
+  turn = white
+else turn = black;
+}
+
+Every square has an alpha-numberic ID from a1 through h8.  The squares will also be initially loaded with an img tag that has no source.
+
+When user clicks a square the following happen in this order:
+1. The first thing that happens is the "piece selected" variable is checked to see if it is false or not.  If it is false, then the program iterates through the pieces object to see if any piece location matches the ID of the square that is clicked.
+2.  If no match is found, nothing happens.  If a match is found, that piece's color is checked to see if it matches whose turn it is.
+3.  If it doesn't match the turn, then nothing happens. If it does, then the possible moves function runs calculating all the possible moves and storing them into the possible moves array.  If the array is empty, then nothing happens.
+4.  If the array is not empty, then for every element in the possible moves array div's with matching IDs are changed to have a blueish border highlighting the possible squares.  Alternatively, the entire square is highlighted blue.  The square that is clicked is also highlighted and the "piece selected" variable is changed to point at the piece object that was selected.
+5.  3 things can happen next.  The player can click a not highlighted space, another one of their pieces, or a legal space.  At this point we are back to step one only when the user makes another click and the "piece selected" variable is checked, it is true.  Once the program recognizes it as true, it compares the ID of the square clicked to the possible moves array of the currently selected piece.  If the ID is in the array, then the following happens:
+
+6.1 The location of the selected piece is changed to match the ID of the clicked square which can be temporarily stored in a square_clicked variable.  The source attribute of the image tag of the div clicked is changed to the image property of the piece selected.  Piece selected is switched to false.  Turn is switched.
+
+==========================
+// Pseudocode iteration 2:
+==========================
+
+
+Methods:
+1. Concatenation method that takes the alphabet array and a number returning a legal spot.
+
+1. square.on(click function(){ squareSelected= id of square clicked; squareClicked()}
+
+2. squareClicked: check if piece selected is true or false.  If false, run check for piece in an if statement like so:
+If (checkForPiece(squareSelected)) run {if (pieceSelected.findPossibleMoves) > change squareSelected to false, run highlightMoves else change pieceSelected to false}
+If pieceSelected isn't false,  if(legalMove) run makeMove. else: change pieceSelected to false, run unHighlight, and run squareClicked.
+
+3. checkForPiece(color): iterate over piece array objects location property looking for match to squareSelected.  If piece found and and matches that pieces color matches the turn, change pieceSelected to the piece found there.  return true.  Else return false.
+
+4. findPossibleMoves: This is a method of every piece object. Find possible moves adding them to possibleMoves array if they exist.  In this, include an if statement to check if inCheck is true or false.  If inCheck is true, compare all moves in possibleMoves array to those in squaresToStopCheckMate removing any that aren't in squaresToStopCheckMate.  If possibleMoves is empty at the end, return false.  If yes return true.
+
+5.  highlightMoves: Remove highlight class of any div with that class.  forEach element in legal moves array of pieceSelected, add class=highlight to divs with matching IDs.
+
+6.  legalMove: compare squareSelected to those in the legal moves array of the pieceSelected.  If match, return true.  Else return false.
+
+7. makeMove: Change html of p tag of squareSelected to match that of pieceSelected image property.  Change turn to the opposite.  Empty possibleMoves array.  Change pieceStorage to point to pieceSelected object.
+if(checkForPiece)  iterate over pieces array looking for a location match to squareSelected. Change the value at that index to 0, removing the opponents piece from the game.  Change location of pieceStorage object location property to squareSelected.  Change pieceSelected to pieceStorage.
+Else change location of pieceSelected to squareSelected.
+Run unHighlight.
+Run checkForCheck.
+
+8. checkForCheck: Run possibleMoves for the pieceSelected. See if possibleMoves.indexOf(gameObject[${turn}KingLocation]) > -1 as in, is the opponenent king in check.  If yes, change isInCheck to true.  Empty possibleMoves array.  Run checkForCheckMate.
+Change piece selected to false.
+
+8.1 To check if a possible move will put own king in check:
+Make the game think the piece has already done the possibleMove and:
+For each of the other players pieces, check if their possibleMoves array contains the kings square.  If it does, don't add that move to the array or remove it.  Be sure it empty each opponent's possibleMoves array.
+
+9. checkForCheckMate:
+9.1 do if(possibleMoves) for the king.  If false, move onto 9.2.
+If true, then for every move in possibleMoves, make squareSelected the possibleMove: iterate over the entire pieces array and for every piece that is the opposite of whoever's turn it is (be sure to exclude the piece giving check if it is on a square within the king's possible moves), make piece the pieceSelected and run if(findPossibleMoves) if (legalMove) then remove this possible move from the moves array. Empty pieceSelected's possible moves each time. Once done, if possibleMoves for king is empty, move onto 9.2.
+9.2 Make squareSelected the location of pieceStorage object.  Check type of piece storage.  If knight, then run captureChecker.  If false, checkmate!  If true, then pieceStorage = false, pieceSelected = false, squareSelected = false.
+If not a knight, move on to 9.3
+9.3 Find all squares between checker and king and add them to squaresToStopCheckMate array (including square that checker is on).  Iterate over the squaresToStopCheckMate array.  For each of these squares, make the square the squareSelected and iterate over entire pieces array and for every piece that is the same as the turn, make that piece the pieceSelected and run if (blockorCaptureChecker) then pieceStorage = false, pieceSelected = false, squareSelected=false and return. If get to end of squares and and of pieces array for last square, then checkmate!
+
+10. captureChecker: run findPossibleMoves on pieceSelected.  if (legalMove) empty the possibleMoves array return true.  Else, return false.
+
+11. blockorCaptureChecker: run findPossibleMoves on pieceSelected.  if (legalMove) empty the possibleMoves array return true.  Else, return false.
+
+
+NEED METHOD TO CHECK AND SEE IF A LEGAL MOVE PUTS YOUR OWN KING IN CHECK FUCKKK!
+
+Okay: refactor pseudo isInCheck to be able to be called at any time.
+
+
+Bishop movement:
+Split into 4 paths:
+For each path: Loop through increasing both coordinates by 1 and checking to see if space is blocked.  If not blocked, add to possibleMoves.  And continue iterating.  If blocked, check color, if same color, break the loop and stop iterating.  If opposite color, add space to possibleMoves and break loop to stop iterating.
+
+
+
+-Chess API may be useful for:
+1. Move suggestions.
+2. Score (not a real score, but a number that represents who is winning at each point of the game)
+3.
+
+============================
+//Check situations to handle
+============================
+Moving a piece can put own king into check if its blockiing another piece.
+However if it can capture that piece, then it can still move there.
+However if moving it to capture that piece puts the king in check from another piece, because it was pinned by 2 pieces, then it can't do that.
+  Note: nevermind, that last one isn't possible (thank god).
+Moving king into check.
+
+EXPLODE CONFETTI: To the victor go the spoils:
+https://codepen.io/linrock/pen/Amdhr
+
+===============
+//AI PSEUDOCODE
+===============
+
+Okay here we go.
+Lets start by assuming the computer is black.
+Add a score to the game object that represents black's score of the game modeled as zero-sum.  Add a points property to every piece object that represents its value:
+
+
+Pawns: 1pt
+Bishops: 3.5 pts
+Knights: 3pts
+Rook: 5pts
+Queen: 9pts
+King: infinite (or 1000pts for the sake of the program)
+Use this link to further refine the point system once the AI is programmed: https://en.wikipedia.org/wiki/Chess_piece_relative_value
+
+After each turn, loop through all the game pieces adding up the total points for each team and subtract white's point total from black's to obtain the score at that point.
+
+Add a branch property to the game object to be used to determine how many moves ahead the computer should generate.
+
+Create a separate AI object that has a moveMemory property that will be used to store the moves tree.  The moves tree will be an object that contains an array where each array
+When its computer's turn:
+Set game.depth = 0;
+Loop through all pieces generating all of their possible moves.
+For every move, use a game constructor to create a new instance of the game, make that move, and store this new game as a property in the game.memory object.  These properties can just be 1 - totalpossibleMoves.length.
+Set memory of the new game to empty.
+something like: this.gameMemory[i] = new game(old game properties etc)
+this.gameMemory[i].
+
+Okay:
+this.blackPieces.forEach(piece){
+  piece.findPossibleMoves()
+    piece.possiblemoves.forEach(move){
+    this.gameMemory[piece+move] = new game(load game information)
+    this.gameMemory[piece+move].gameMemory = {}
+    Make piece selected = piece.
+    make square selected = move.
+    Make move by piece.
+    this.gameMemory[piece+move].whitePieces.forEach(piece2){
+      piece2.findPossibleMoves()
+      piece.possibleMoves.forEach(move2){
+        this.gameMemory[piece+move].gameMemory[piece2 + move2] = new game(load game information)
+        this.gameMemory[piece+move].gameMemory = {}
+        Make piece selected = piece2.
+        make square selected = move2.
+        Make move by piece.
+        }
+
+    }
+
+    }
+}
+
+include a this.runningCalculation = true/false to prevent an infinite loop while the computer is 'thinking'
+New glitch discovered: king is allowed to capture a piece giving check even if it is discovered.  Fuck
+
+Disable clicking for the user while the computer is moving by adding a class to squares.  Then can use that class to select all squares, remove the square class while the computer is moving, and then add the class back in once the computer has moved.
+
+AI is up and somewhat functioning.  Need a way to handle leaves where the opponent captures the king.  Error currently occurring at line 504 when the AI is projecting a king capture.
+
+Definitely other glitches still occurring.
+AI seems to be taking pieces without giving them back >:(
+
+For beginning piece development, look up some common starting moves to develop the board, and then store them in an array and then if the best move generated by the algorithm doesnt offer a material advantage, pick a positional development move at random.  Or look up how to develop positionally with AI.
+
+Check for checkmate before beginning loop.
+Use math.random*20 to pick a random move or load all move/piece combos into an array and then use math.random to pick one
+ROOT SHOULD ONLY RUN 20 TIMES.
